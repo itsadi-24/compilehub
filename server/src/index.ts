@@ -1,9 +1,9 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
+import cors from 'cors';
 const app = express();
 
-app.get('/', (req, res) => {
-  const {} = req.body;
-});
+app.use(cors());
+app.use(express.json());
 
 app.listen(4000, () => {
   console.log('http://localhost:4000');
