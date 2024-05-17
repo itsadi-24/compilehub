@@ -20,24 +20,24 @@ export default function HelperHeader() {
     (state: RootState) => state.compilerSlice.currentLanguage
   );
   return (
-    <div className='__header_helper h-12 bg-black text-white p-2 flex justify-between items-center'>
-      <div className='__btn_container flex gap-1'>
+    <div className='flex items-center justify-between h-12 p-2 text-white bg-black __header_helper'>
+      <div className='flex gap-1 __btn_container'>
         <Button
-          className='flex justify-center items-center gap-1 bg-green-500 hover:bg-green-700'
+          className='flex items-center justify-center gap-1 bg-green-500 hover:bg-green-700'
           variant='outline'
         >
           <Save size={16} />
           Save
         </Button>
         <Button
-          className='flex justify-center items-center gap-1'
+          className='flex items-center justify-center gap-1'
           variant='secondary'
         >
           <Share2 size={16} />
           Share
         </Button>
       </div>
-      <div className='__tab_switcher flex justify-center items-center gap-1'>
+      <div className='flex items-center justify-center gap-1 __tab_switcher'>
         <p>Language:</p>
 
         <Select
@@ -57,7 +57,6 @@ export default function HelperHeader() {
             <SelectItem value='html'>HTML</SelectItem>
             <SelectItem value='css'>CSS</SelectItem>
             <SelectItem value='javascript'>JAVASCRIPT</SelectItem>
-            <SelectItem value='java'>JAVA</SelectItem>
           </SelectContent>
         </Select>
       </div>
