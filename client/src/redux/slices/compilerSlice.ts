@@ -16,24 +16,22 @@ const initialState: CompilerSliceStateType = {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todo App</title>
+  <title>Todo List</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
     <h1>Todo List</h1>
-    <form>
-      <input type="text" id="todo-input" placeholder="Enter a new todo">
-      <button type="submit" id="add-btn">Add</button>
-    </form>
-    <ul id="todo-list"></ul>
+    <input type="text" id="task-input" placeholder="Enter a task">
+    <button id="add-task">Add</button>
+    <ul id="task-list"></ul>
   </div>
-  <script src="app.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>`,
     css: `body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #f0f0f0;
 }
 
 .container {
@@ -48,18 +46,13 @@ h1 {
   text-align: center;
 }
 
-form {
-  display: flex;
-  margin-bottom: 20px;
-}
-
-#todo-input {
-  flex: 1;
+input[type="text"] {
+  width: 70%;
   padding: 10px;
   font-size: 16px;
 }
 
-#add-btn {
+button {
   padding: 10px 20px;
   font-size: 16px;
   background-color: #4CAF50;
@@ -74,23 +67,20 @@ ul {
 }
 
 li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 li span {
-  flex: 1;
-  word-break: break-all;
+  flex-grow: 1;
+  margin-right: 10px;
 }
 
 li button {
-  margin-left: 10px;
   background-color: #f44336;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
 }`,
     javascript: `const taskInput = document.getElementById('task-input');
 const addTaskBtn = document.getElementById('add-task');
@@ -136,8 +126,15 @@ const compilerSlice = createSlice({
     updateCodeValue: (state, action: PayloadAction<string>) => {
       state.fullCode[state.currentLanguage] = action.payload;
     },
+    updateFullCode: (
+      state,
+      action: PayloadAction<CompilerSliceStateType['fullCode']>
+    ) => {
+      state.fullCode = action.payload;
+    },
   },
 });
 
 export default compilerSlice.reducer;
-export const { updateCurrentLanguage, updateCodeValue } = compilerSlice.actions;
+export const { updateCurrentLanguage, updateCodeValue, updateFullCode } =
+  compilerSlice.actions;

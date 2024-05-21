@@ -1,4 +1,4 @@
-import { Save, Share2 } from 'lucide-react';
+import { Loader2, Save, Share2 } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   Select,
@@ -15,8 +15,12 @@ import {
 import { RootState } from '@/redux/store';
 import { handleError } from '@/utils/handleError';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function HelperHeader() {
+  const [saveLoading, setSaveLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
   const fullCode = useSelector(
     (state: RootState) => state.compilerSlice.fullCode
   );
@@ -26,8 +30,11 @@ export default function HelperHeader() {
         fullCode: fullCode,
       });
       console.log(response.data);
+      navigate(`/compiler/${response.data.url}`, { replace: true });
     } catch (error) {
       handleError(error);
+    } finally {
+      setSaveLoading(false);
     }
   };
   const dispatch = useDispatch();
@@ -41,9 +48,16 @@ export default function HelperHeader() {
           onClick={handleSaveCode}
           className='flex items-center justify-center gap-1 bg-green-500 hover:bg-green-700'
           variant='outline'
+          disabled={saveLoading}
         >
+          {saveLoading ? (
+            <>
+              <Loader2 className=' animate-spin' /> Saving
+            </>
+          ) : (
+            'Save'
+          )}
           <Save size={16} />
-          Save
         </Button>
         <Button
           className='flex items-center justify-center gap-1'
