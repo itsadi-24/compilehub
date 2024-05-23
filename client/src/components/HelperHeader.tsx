@@ -14,7 +14,7 @@ import {
 } from '@/redux/slices/compilerSlice';
 import { RootState } from '@/redux/store';
 import { handleError } from '@/utils/handleError';
-import axios from 'axios';
+import { useSaveCodeMutation } from '@/redux/slices/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {
@@ -28,13 +28,60 @@ import { DialogHeader } from './ui/dialog';
 import { toast } from 'sonner';
 
 export default function HelperHeader() {
-  const [saveLoading, setSaveLoading] = useState<boolean>(false);
   const [shareBtn, setShareBtn] = useState<boolean>(false);
   const navigate = useNavigate();
   const fullCode = useSelector(
     (state: RootState) => state.compilerSlice.fullCode
   );
+  const [saveCode, { isLoading }] = useSaveCodeMutation();
 
+  const handleDownloadCode = () => {
+    if (
+      fullCode.html === '' &&
+      fullCode.css === '' &&
+      fullCode.javascript === ''
+    ) {
+      toast('Error: Code is Empty');
+    } else {
+      const htmlCode = new Blob([fullCode.html], { type: 'text/html' });
+      const cssCode = new Blob([fullCode.css], { type: 'text/css' });
+      const javascriptCode = new Blob([fullCode.javascript], {
+        type: 'text/javascript',
+      });
+
+      const htmlLink = document.createElement('a');
+      const cssLink = document.createElement('a');
+      const javascriptLink = document.createElement('a');
+
+      htmlLink.href = URL.createObjectURL(htmlCode);
+      htmlLink.download = 'index.html';
+      document.body.appendChild(htmlLink);
+
+      cssLink.href = URL.createObjectURL(cssCode);
+      cssLink.download = 'style.css';
+      document.body.appendChild(cssLink);
+
+      javascriptLink.href = URL.createObjectURL(javascriptCode);
+      javascriptLink.download = 'script.js';
+      document.body.appendChild(javascriptLink);
+
+      if (fullCode.html !== '') {
+        htmlLink.click();
+      }
+      if (fullCode.css !== '') {
+        cssLink.click();
+      }
+      if (fullCode.javascript !== '') {
+        javascriptLink.click();
+      }
+
+      document.body.removeChild(htmlLink);
+      document.body.removeChild(cssLink);
+      document.body.removeChild(javascriptLink);
+
+      toast('Code Downloaded Successfully!');
+    }
+  };
   const { urlId } = useParams();
   useEffect(() => {
     if (urlId) {
@@ -44,16 +91,12 @@ export default function HelperHeader() {
     }
   }, []);
   const handleSaveCode = async () => {
+    // const body = { fullCode: fullCode, title: postTitle };
     try {
-      const response = await axios.post('http://localhost:4000/compiler/save', {
-        fullCode: fullCode,
-      });
-      console.log(response.data);
-      navigate(`/compiler/${response.data.url}`, { replace: true });
+      const response = await saveCode(fullCode).unwrap();
+      navigate(`/compiler/${response.url}`, { replace: true });
     } catch (error) {
       handleError(error);
-    } finally {
-      setSaveLoading(false);
     }
   };
   const dispatch = useDispatch();
@@ -67,9 +110,9 @@ export default function HelperHeader() {
           onClick={handleSaveCode}
           className='flex items-center justify-center gap-1 bg-green-500 hover:bg-green-700'
           variant='outline'
-          disabled={saveLoading}
+          disabled={isLoading}
         >
-          {saveLoading ? (
+          {isLoading ? (
             <>
               <Loader2 className=' animate-spin' /> Saving
             </>
