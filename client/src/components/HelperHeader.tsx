@@ -1,4 +1,4 @@
-import { Code, Copy, Loader2, Save, Share2 } from 'lucide-react';
+import { Code, Copy, Download, Loader2, Save, Share2 } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   Select,
@@ -120,6 +120,9 @@ export default function HelperHeader() {
             'Save'
           )}
           <Save size={16} />
+        </Button>
+        <Button size='icon' onClick={handleDownloadCode} variant='outline'>
+          <Download size={16} />
         </Button>
         {shareBtn && (
           <Dialog>
