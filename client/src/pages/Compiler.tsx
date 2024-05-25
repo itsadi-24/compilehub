@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { useLoadCodeMutation } from '@/redux/slices/api';
 import { useParams } from 'react-router-dom';
 import { Loader } from '@/components/Loader/Loader';
+import Header from '@/components/ui/Header';
 // import { toast } from 'sonner';
 
 const Compiler = () => {
@@ -48,18 +49,21 @@ const Compiler = () => {
       </div>
     );
   return (
-    <ResizablePanelGroup direction='horizontal'>
-      <ResizablePanel className='h-auto min-w-[350px] ' defaultSize={50}>
-        <CodeEditor />
-      </ResizablePanel>
-      <ResizableHandle />
-      <ResizablePanel
-        className='h-[calc(100dvh-60px)] min-w-[350px]'
-        defaultSize={50}
-      >
-        <RenderCode />
-      </ResizablePanel>
-    </ResizablePanelGroup>
+    <>
+      <Header />
+      <ResizablePanelGroup direction='horizontal'>
+        <ResizablePanel className='h-auto min-w-[350px] ' defaultSize={50}>
+          <CodeEditor />
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel
+          className='h-[calc(100dvh-60px)] min-w-[350px]'
+          defaultSize={50}
+        >
+          <RenderCode />
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </>
   );
 };
 

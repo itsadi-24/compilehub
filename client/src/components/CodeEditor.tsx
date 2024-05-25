@@ -6,6 +6,7 @@ import { RootState } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCodeValue } from '@/redux/slices/compilerSlice';
 import React from 'react';
+// import Header from './ui/Header';
 
 export default function CodeEditor() {
   const currentLanguage = useSelector(
