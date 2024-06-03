@@ -1,4 +1,4 @@
-import { Code, Copy, Download, Loader2, Save, Share2 } from 'lucide-react';
+import { Download } from 'lucide-react';
 import { Button } from './ui/button';
 import {
   Select,
@@ -13,27 +13,27 @@ import {
   updateCurrentLanguage,
 } from '@/redux/slices/compilerSlice';
 import { RootState } from '@/redux/store';
-import { handleError } from '@/utils/handleError';
-import { useSaveCodeMutation } from '@/redux/slices/api';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
-import { DialogHeader } from './ui/dialog';
+// import { handleError } from '@/utils/handleError';
+// import { useSaveCodeMutation } from '@/redux/slices/api';
+// import { useParams } from 'react-router-dom';
+// import { useEffect } from 'react';
+// import {
+//   Dialog,
+//   DialogTrigger,
+//   DialogContent,
+//   DialogTitle,
+//   DialogDescription,
+// } from '@/components/ui/dialog';
+// import { DialogHeader } from './ui/dialog';
 import { toast } from 'sonner';
 
 export default function HelperHeader() {
-  const [shareBtn, setShareBtn] = useState<boolean>(false);
-  const navigate = useNavigate();
+  // const [shareBtn, setShareBtn] = useState<boolean>(false);
+  // const navigate = useNavigate();
   const fullCode = useSelector(
     (state: RootState) => state.compilerSlice.fullCode
   );
-  const [saveCode, { isLoading }] = useSaveCodeMutation();
+  // const [saveCode, { isLoading }] = useSaveCodeMutation();
 
   const handleDownloadCode = () => {
     if (
@@ -82,23 +82,23 @@ export default function HelperHeader() {
       toast('Code Downloaded Successfully!');
     }
   };
-  const { urlId } = useParams();
-  useEffect(() => {
-    if (urlId) {
-      setShareBtn(true);
-    } else {
-      setShareBtn(false);
-    }
-  }, []);
-  const handleSaveCode = async () => {
-    // const body = { fullCode: fullCode, title: postTitle };
-    try {
-      const response = await saveCode(fullCode).unwrap();
-      navigate(`/compiler/${response.url}`, { replace: true });
-    } catch (error) {
-      handleError(error);
-    }
-  };
+  // const { urlId } = useParams();
+  // useEffect(() => {
+  //   if (urlId) {
+  //     setShareBtn(true);
+  //   } else {
+  //     setShareBtn(false);
+  //   }
+  // }, [urlId]);
+  // const handleSaveCode = async () => {
+  //   // const body = { fullCode: fullCode, title: postTitle };
+  //   try {
+  //     const response = await saveCode(fullCode).unwrap();
+  //     navigate(`/compiler/${response.url}`, { replace: true });
+  //   } catch (error) {
+  //     handleError(error);
+  //   }
+  // };
   const dispatch = useDispatch();
   const currentLanguage = useSelector(
     (state: RootState) => state.compilerSlice.currentLanguage
@@ -106,7 +106,7 @@ export default function HelperHeader() {
   return (
     <div className='flex items-center justify-between h-12 p-2 text-white bg-black __header_helper'>
       <div className='flex gap-1 __btn_container'>
-        <Button
+        {/* <Button
           onClick={handleSaveCode}
           className='flex items-center justify-center gap-1 bg-green-500 hover:bg-green-700'
           variant='outline'
@@ -120,11 +120,16 @@ export default function HelperHeader() {
             'Save'
           )}
           <Save size={16} />
-        </Button>
-        <Button size='icon' onClick={handleDownloadCode} variant='outline'>
+        </Button> */}
+        <Button
+          size='icon'
+          onClick={handleDownloadCode}
+          variant='outline'
+          className='bg-green-500 '
+        >
           <Download size={16} />
         </Button>
-        {shareBtn && (
+        {/* {shareBtn && (
           <Dialog>
             <DialogTrigger className='flex items-center justify-center gap-1 px-4 py-2 text-sm font-medium transition-colors rounded-md shadow-sm whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9'>
               <Share2 size={16} />
@@ -161,7 +166,7 @@ export default function HelperHeader() {
               </DialogHeader>
             </DialogContent>
           </Dialog>
-        )}
+        )} */}
       </div>
       <div className='flex items-center justify-center gap-1 __tab_switcher'>
         <p>Language:</p>
