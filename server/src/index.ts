@@ -8,7 +8,7 @@ import { compilerRouter } from './routes/compilerRouter';
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:5173', process.env.CLIENT_URL!],
+    origin: ['http://localhost:5173', 'https://compilehub.vercel.app/'],
   })
 );
 app.use(express.json());
