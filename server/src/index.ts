@@ -5,7 +5,12 @@ import { config } from 'dotenv';
 import { dbConnect } from './lib/dbConnect';
 import { compilerRouter } from './routes/compilerRouter';
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:5173', process.env.CLIENT_URL!],
+  })
+);
 app.use(express.json());
 config();
 
